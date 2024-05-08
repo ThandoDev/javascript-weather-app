@@ -10,51 +10,97 @@
 
     <div class="card">
         <div class="search">
+            <!-- It's good to add alt text for images for accessibility -->
             <input type="text" placeholder="Enter City Name" spellcheck="false">
-            <button> <img src="images/search.png"> </button>
+            <button> <img src="images/search.png" alt="Search Icon"> </button>
         </div>
 
         <div class="weather">
-            <img src="images/clouds.png" class="weather-icon">
+            <!-- It's good to add alt text for images for accessibility -->
+            <img src="images/clouds.png" class="weather-icon" alt="Weather Icon">
             <h1 class="temp">
             22°C
             </h1>
             <h2 class="city">Alberton</h2>
             <div class="details">
                 <div class="col">
-                    <img src="images/humidity.png">
+                    <!-- It's good to add alt text for images for accessibility -->
+                    <img src="images/humidity.png" alt="Humidity Icon">
                     <div>
                         <p class="humidity">40%</p>
                         <p>Humidity</p>
                     </div>
+                </div>
+                <div class="col">
+                    <!-- It's good to add alt text for images for accessibility -->
+                    <img src="images/wind.png" alt="Wind Icon">
+                    <div>
+                        <p class="wind">15 km/h </p>
+                        <p>Wind Speed</p>
                     </div>
-                    <div class="col">
-                        <img src="images/wind.png">
-                        <div>
-                            <p class="wind">15 km/h </p>
-                            <p>Wind Speed</p>
-                        </div>
+                </div>
             </div>
         </div>
 
     </div>
     <script>
 const apiKey = "ef1219f8ba3493a9d1b30a8481c2826e";
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=durban";
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
 
-async function checkWeather (){
-    const response = await fetch(apiUrl + `&appid=${apiKey}`);
-    var data = await response.json();
+const searchBox = document.querySelector(".search input");
+const searchBtn = document.querySelector(".search button");
+const weatherIcon = document.querySelector(".weather-icon");
 
-    console.log(data);
+async function checkWeather(city) {
+    try {
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch weather data');
+        }
+        const data = await response.json();
 
-    document.querySelector(".city").innerHTML = data.name;
-    document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
-    document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
-    document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-} 
+        console.log(data);
 
-checkWeather ();
+        document.querySelector(".city").innerHTML = data.name;
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+        document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+
+        // It's better to use switch case for better readability and maintainability
+        switch (data.weather[0].main) {
+            case "Clouds":
+                weatherIcon.src = "images/clouds.png";
+                break;
+            case "Clear":
+                weatherIcon.src = "images/clear.png";
+                break;
+            case "Rain":
+                weatherIcon.src = "images/rain.png";
+                break;
+            case "Drizzle":
+                weatherIcon.src = "images/drizzle.png";
+                break;
+            case "Mist":
+                weatherIcon.src = "images/mist.png";
+            case "Snow":
+                weatherIcon.src = "images/snow.png";
+            break;
+            default:
+                // Handle other weather conditions if needed
+                break;
+        }
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+    }
+}
+
+// It's better to handle the click event inside the function instead of directly invoking the function
+searchBtn.addEventListener("click", () => {
+    checkWeather(searchBox.value);
+});
+
+// It's good to have a default city to display weather initially
+checkWeather("Alberton");
     </script>
 </body>
 </html>
