@@ -20,3 +20,40 @@ body{
     text-align: center;
     padding: 40px 35px;
 }
+.search{
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 400px;
+    font-size: 14px;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+.search input{
+    border: none;
+    outline: none;
+    background: #ebfffc;
+    width: 90%;
+    margin-right: 16px;
+    font-size: 18px;
+    padding: 10px 25px;
+    border-radius: 20px;
+}
+.search button{
+    border: none;
+    outline: none;
+    background: #ebfffc;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+}
+.search button img{
+    width: 25px;
+}
