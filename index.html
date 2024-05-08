@@ -15,7 +15,8 @@
             <button> <img src="images/search.png" alt="Search Icon"> </button>
         </div>
 
-        <div class="error">
+        <!-- Initially hide the error message -->
+        <div class="error" style="display: none;">
             Invalid City Name
         </div>
 
@@ -63,55 +64,57 @@ async function checkWeather(city) {
         }
         const data = await response.json();
 
-        if(response.status == 404){
+        // Check for 404 response status
+        if (response.status === 404) {
             document.querySelector(".error").style.display = "block";
             document.querySelector(".weather").style.display = "none";
-        
-        }else{  document.querySelector(".city").innerHTML = data.name;
-        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
-        document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
-        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+        } else {
+            // Display weather data
+            document.querySelector(".error").style.display = "none"; // Hide error message if it was previously displayed
+            document.querySelector(".weather").style.display = "block"; // Show weather section
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+            document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
 
-        // It's better to use switch case for better readability and maintainability
-        switch (data.weather[0].main) {
-            case "Clouds":
-                weatherIcon.src = "images/clouds.png";
-                break;
-            case "Clear":
-                weatherIcon.src = "images/clear.png";
-                break;
-            case "Rain":
-                weatherIcon.src = "images/rain.png";
-                break;
-            case "Drizzle":
-                weatherIcon.src = "images/drizzle.png";
-                break;
-            case "Mist":
-                weatherIcon.src = "images/mist.png";
-            case "Snow":
-                weatherIcon.src = "images/snow.png";
-            break;
-            default:
-                // Handle other weather conditions if needed
-                break;
+            // Set weather icon based on weather condition
+            switch (data.weather[0].main) {
+                case "Clouds":
+                    weatherIcon.src = "images/clouds.png";
+                    break;
+                case "Clear":
+                    weatherIcon.src = "images/clear.png";
+                    break;
+                case "Rain":
+                    weatherIcon.src = "images/rain.png";
+                    break;
+                case "Drizzle":
+                    weatherIcon.src = "images/drizzle.png";
+                    break;
+                case "Mist":
+                    weatherIcon.src = "images/mist.png";
+                    break;
+                case "Snow":
+                    weatherIcon.src = "images/snow.png";
+                    break;
+                default:
+                    // Handle other weather conditions if needed
+                    break;
+            }
         }
-
-document.querySelector(".weather").style.display = "block"}
-
-      
-
     } catch (error) {
         console.error('Error fetching weather data:', error);
     }
 }
 
-// It's better to handle the click event inside the function instead of directly invoking the function
+// Handle search button click
 searchBtn.addEventListener("click", () => {
     checkWeather(searchBox.value);
 });
 
-// It's good to have a default city to display weather initially
+// Display weather for default city initially
 checkWeather("Alberton");
     </script>
 </body>
 </html>
+
