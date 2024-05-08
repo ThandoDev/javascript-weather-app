@@ -13,7 +13,6 @@ body {
     background: linear-gradient(135deg, #71b7e6, #9b59b6);
     border-radius: 20px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
     width: 90%;
     max-width: 470px;
     margin: 100px auto 0;
@@ -97,4 +96,15 @@ body {
 .humidity, .wind{
     font-size: 20px;
     margin-top: -5px;
+}
+
+.weather{
+    display: none;
+}
+.error{
+    text-align: left;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
 }
